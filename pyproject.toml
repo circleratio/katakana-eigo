@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "katakana-eigo"
+version = "0.1.0"
+description = "英語の文章を発音に近いカタカナ表記に変換するCLIフィルタ"
+requires-python = ">=3.10"
+dependencies = [
+    "pronouncing>=0.2.0",
+    "g2p_en>=2.1.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0",
+]
+
+[project.scripts]
+katakana-eigo = "katakana_eigo.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["katakana_eigo*"]
