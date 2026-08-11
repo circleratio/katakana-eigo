@@ -33,3 +33,17 @@ def test_write_output_writes_to_stdout(monkeypatch):
     monkeypatch.setattr("sys.stdout", buffer)
     write_output("カタカナ")
     assert buffer.getvalue() == "カタカナ"
+
+
+def test_read_input_from_stdin_invalid_utf8_raises(monkeypatch):
+    bad_stdin = io.TextIOWrapper(io.BytesIO(b"hello \xff world"), encoding="utf-8")
+    monkeypatch.setattr("sys.stdin", bad_stdin)
+    with pytest.raises(UnicodeDecodeError):
+        read_input(None)
+
+
+def test_read_input_from_file_invalid_utf8_raises(tmp_path):
+    file_path = tmp_path / "bad.txt"
+    file_path.write_bytes(b"hello \xff world")
+    with pytest.raises(UnicodeDecodeError):
+        read_input(str(file_path))

@@ -64,3 +64,38 @@ def test_main_help_exits_zero(capsys):
     assert excinfo.value.code == 0
     out = capsys.readouterr().out
     assert "katakana-eigo" in out
+
+
+def test_main_stdin_invalid_utf8_returns_1_and_prints_error(monkeypatch, capsys):
+    bad_stdin = io.TextIOWrapper(io.BytesIO(b"hello \xff world"), encoding="utf-8")
+    monkeypatch.setattr("sys.stdin", bad_stdin)
+    exit_code = main([])
+    assert exit_code == 1
+    err = capsys.readouterr().err
+    assert "標準入力をUTF-8として読み込めません" in err
+
+
+def test_main_file_invalid_utf8_returns_1_and_prints_error(tmp_path, capsys):
+    file_path = tmp_path / "bad.txt"
+    file_path.write_bytes(b"hello \xff world")
+    exit_code = main([str(file_path)])
+    assert exit_code == 1
+    err = capsys.readouterr().err
+    assert "ファイルを読み込めません" in err
+    assert str(file_path) in err
+
+
+def test_convert_word_hyphenated_compound_is_single_conversion():
+    assert convert_word("well-known") == "ウェルノウン"
+
+
+def test_convert_text_alphanumeric_and_hyphenated_words_not_split():
+    text = "This well-known tool handles COVID-19 and phone 123-456 fine."
+    result = convert_text(text)
+    assert "ウェルノウン" in result
+    # 数字のみの文字列("123-456")は英単語とみなさず、変更せず残る。
+    assert "123-456" in result
+    # ハイフン複合語・英数字混在語は分割されず、ハイフン自体は出力に残らない。
+    assert "well-" not in result
+    assert "-known" not in result
+    assert "COVID-" not in result

@@ -1,0 +1,1 @@
+The well-known state-of-the-art G2P tool handles COVID-19 and phone numbers like 123-456 just fine.

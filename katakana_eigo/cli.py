@@ -53,6 +53,12 @@ def main(argv: list[str] | None = None) -> int:
     except FileNotFoundError:
         print(f"エラー: ファイルが見つかりません: {args.file}", file=sys.stderr)
         return 1
+    except UnicodeDecodeError:
+        if args.file is None:
+            print("エラー: 標準入力をUTF-8として読み込めません", file=sys.stderr)
+        else:
+            print(f"エラー: ファイルを読み込めません: {args.file}", file=sys.stderr)
+        return 1
     except OSError:
         print(f"エラー: ファイルを読み込めません: {args.file}", file=sys.stderr)
         return 1
