@@ -2,7 +2,7 @@
 
 英語の文章を、実際の発音に近いカタカナ表記に変換するCLIフィルタ。
 
-詳細な要件・設計は [`requirement.md`](requirement.md) / [`spec.md`](spec.md) / [`plan.md`](plan.md) を参照。
+詳細な要件・設計は [`docs/requirement.md`](docs/requirement.md) / [`docs/spec.md`](docs/spec.md) / [`docs/plan.md`](docs/plan.md) を参照。
 
 ## セットアップ
 
@@ -49,7 +49,7 @@ $ echo "これは a pen です。Thank you!" | katakana-eigo
 - L と R はどちらもラ行になり区別されない(標準カタカナの表現力の限界)
 - 略語・頭字語(`NASA`, `USA` 等)を1文字ずつ読み上げる特別ルールは無い。大文字小文字を区別しない設計のため大文字パターンからの頭字語検出自体ができず、単なる未対応ではなく設計変更が必要な恒常的な限界
 
-詳細は [`requirement.md`](requirement.md) の「既知の限界」、[`spec.md`](spec.md) 8章を参照。
+詳細は [`docs/requirement.md`](docs/requirement.md) の「既知の限界」、[`docs/spec.md`](docs/spec.md) 8章を参照。
 
 ## プロジェクト構成
 
@@ -67,7 +67,7 @@ scripts/download_nltk_data.py    # g2p_en用NLTKデータの取得スクリプ�
 
 ## 開発状況
 
-`plan.md` の Phase 0〜9(環境構築〜要件変更対応)まで完了。Phase 10(出力ファイルオプション等)は将来対応でスコープ外。
+`docs/plan.md` の Phase 0〜9(環境構築〜要件変更対応)まで完了。Phase 10(出力ファイルオプション等)は将来対応でスコープ外。
 
 ## テスト
 
